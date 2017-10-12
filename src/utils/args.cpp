@@ -6,6 +6,7 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
+// HY 10.12.2017. added reformatPred to Args(), parseArgs(), printHelp(), printArgs().
 
 #include "args.h"
 
@@ -51,6 +52,7 @@ Args::Args() {
   isTrain = false;
   shareEmb = true;
   saveEveryEpoch = false;
+  reformatPred = false;
 }
 
 void Args::parseArgs(int argc, char** argv) {
@@ -165,6 +167,8 @@ void Args::parseArgs(int argc, char** argv) {
       normalizeText = (string(argv[i + 1]) == "true");
     } else if (strcmp(argv[i], "-saveEveryEpoch") == 0) {
       saveEveryEpoch = (string(argv[i + 1]) == "true");
+    } else if (strcmp(argv[i], "-reformatPred") == 0) {
+      reformatPred = (string(argv[i + 1]) == "true");
     } else {
       cerr << "Unknown argument: " << argv[i] << std::endl;
       printHelp();
@@ -258,6 +262,7 @@ void Args::printHelp() {
        << "  -verbose         verbosity level [" << verbose << "]\n"
        << "  -debug           whether it's in debug mode [" << debug << "]\n"
        << "  -thread          number of threads [" << thread << "]\n"
+       << "  -reformatPred    whether to reformatPred to a table [" << reformatPred << "]\n"
        << std::endl;
 }
 
@@ -284,7 +289,8 @@ void Args::printArgs() {
        << "fileFormat: " << fileFormat << endl
        << "normalizeText: " << normalizeText << endl
        << "dropoutLHS: " << dropoutLHS << endl
-       << "dropoutRHS: " << dropoutRHS << endl;
+       << "dropoutRHS: " << dropoutRHS << endl
+       << "reformatPred: " << reformatPred << endl;
 }
 
 void Args::save(std::ostream& out) {

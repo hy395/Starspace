@@ -63,6 +63,18 @@ echo "Start to train on ag_news data:"
 
 echo "Start to evaluate trained model:"
 
+#./starspace test \
+#  -model "${MODELDIR}"/ag_news \
+#  -testFile "${DATADIR}"/ag_news.test \
+#  -ngrams 1 \
+#  -dim 10 \
+#  -label "__label__" \
+#  -thread 10 \
+#  -similarity "dot" \
+#  -trainMode 0 \
+#  -verbose true \
+
+# alternative output
 ./starspace test \
   -model "${MODELDIR}"/ag_news \
   -testFile "${DATADIR}"/ag_news.test \
@@ -72,4 +84,7 @@ echo "Start to evaluate trained model:"
   -thread 10 \
   -similarity "dot" \
   -trainMode 0 \
-  -verbose true
+  -verbose true \
+  -predictionFile "${DATADIR}"/ag_news.pred \
+  -K 4 \
+  -reformatPred true

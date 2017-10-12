@@ -6,6 +6,7 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
+// HY 10.12.2017 added a new member reformatPred to class Args. 
 
 #pragma once
 
@@ -57,6 +58,7 @@ class Args {
     bool normalizeText;
     bool saveEveryEpoch;
     bool shareEmb;
+    bool reformatPred;
 
     void parseArgs(int, char**);
     void printHelp();

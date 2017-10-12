@@ -7,6 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
+// HY 10.12.2017 edited evaluate() to include an alternative way to output prediction as a table.
 
 #include "starspace.h"
 #include <iostream>
@@ -340,7 +341,8 @@ void StarSpace::evaluate() {
   result.average();
   result.print();
 
-  if (!args_->predictionFile.empty()) {
+  // condition dependent on reformatPred
+  if ( !args_->reformatPred && !args_->predictionFile.empty()) {
     // print out prediction results to file
     ofstream ofs(args_->predictionFile);
     for (int i = 0; i < N; i++) {
@@ -362,6 +364,31 @@ void StarSpace::evaluate() {
     }
     ofs.close();
   }
+
+  // added this new way to reformatPred
+  if ( args_->reformatPred && !args_->predictionFile.empty()) {
+    // print out prediction results to file
+    ofstream ofs(args_->predictionFile);
+    for (int i = 0; i < N; i++) {
+      //ofs << "Example " << i << ":\nLHS:\n";
+      //printDoc(ofs, examples[i].LHSTokens);
+      //ofs << "RHS: \n";
+      //printDoc(ofs, examples[i].RHSTokens);
+      //ofs << "Predictions: \n";
+      for (auto pred : predictions[i]) {
+        if (pred.second == 0) {
+          ofs << i << "\t(++)\t" << pred.first << "\t";
+          printDoc(ofs, examples[i].RHSTokens);
+        } else {
+          ofs << i << "\t(--)\t" << pred.first << "\t";
+          printDoc(ofs, baseDocs_[pred.second - 1]);
+        }
+      }
+      //ofs << "\n";
+    }
+    ofs.close();
+  }
+
 }
 
 void StarSpace::saveModel() {
